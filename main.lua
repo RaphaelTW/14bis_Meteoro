@@ -24,14 +24,17 @@ end
 function criaMeteoro()
     meteoro = {
         x = math.random(LARGURA_TELA),
-        y = 0
+        y = -80,
+        peso = math.random(3),
+        deslocamento_horizontal = math.random(-1,1)
     }
     table.insert(meteoros, meteoro)
 end
 
 function moveMeteoros()
     for k, meteoro in pairs(meteoros) do
-        meteoro.y = meteoro.y + 1
+        meteoro.y = meteoro.y + meteoro.peso
+        meteoro.x = meteoro.x + meteoro.deslocamento_horizontal
     end
 end
 
@@ -58,6 +61,8 @@ function love.load()
         resizable = false
     })
     love.windiw.setTitle("14bis Vs Meteoros")
+
+    math.randomseed(os.time())
 
     background = love.graphics.newImage("img/background.png")
     aviao_14bis.imagem = love.graphics.newImage(aviao_14bis.src)
