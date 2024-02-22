@@ -134,6 +134,8 @@ function love.load()
     math.randomseed(os.time())
 
     background = love.graphics.newImage("img/background.png")
+    gameover_img = love.graphics.newImage("img/gamerover.png")
+
     aviao_14bis.imagem = love.graphics.newImage(aviao_14bis.src)
     meteoro_img = love.graphics.newImage("img/meteoro.png")
     tiro_img = love.graphics.newImage("img/tiro.png")
@@ -176,10 +178,14 @@ function love.draw()
     love.graphics.draw(aviao_14bis.imagem, aviao_14bis.x, aviao_14bis.y)
     
     for k, meteoro in pairs(meteoros) do
-        love.graphics.draw(meteoro_img, meteoro.x, meteoro.y) 
+        love.graphics.draw(meteoro_img, meteoro.x, meteoro.y)
     end
 
     for k, tiro in pairs(aviao_14bis.tiros) do
-        love.graphics.draw(tiro_img, tiro.x, tiro.y) 
+        love.graphics.draw(tiro_img, tiro.x, tiro.y)
+    end
+
+    if FIM_JOGO then
+        love.graphics.draw(gameover_img, LARGURA_TELA/2 -gameover_img:getWidth()/2, ALTURA_TELA/2 - gameover_img:getHeight()/2)
     end
 end
