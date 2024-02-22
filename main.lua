@@ -1,31 +1,31 @@
 LARGURA_TELA = 320
 ALTURA_TELA = 480
-MAX_METEORO = 12
+MAX_METEOROS = 12
 FIM_JOGO = false
 
-aviao_14bis {
-    src = "img/nave.png",
+aviao_14bis = {
+    src = "img/14bis.png",
     largura = 55,
     altura = 63,
-    x = LARGURA_TELA / 2 - 64 / 2,
-    y = ALTURA_TELA - 64 / 2,
+    x = LARGURA_TELA/2 - 64/2,
+    y = ALTURA_TELA - 64/2,
     tiros = {}
 }
 
-function daTiro()
+meteoros = {}
 
+function daTiro()
+    disparo:play()
     local tiro = {
-        x = aviao_14bis.x + aviao_14bis.largura /2,
+        x = aviao_14bis.x + aviao_14bis.largura/2,
         y = aviao_14bis.y,
         largura = 16,
         altura = 16
     }
-
     table.insert(aviao_14bis.tiros, tiro)
-
 end
 
-function moveTiro()
+function moveTiros()
     for i = #aviao_14bis.tiros, 1, -1 do
         if aviao_14bis.tiros[i].y > 0 then
             aviao_14bis.tiros[i].y = aviao_14bis.tiros[i].y - 1
@@ -45,13 +45,14 @@ function destroiAviao()
 end
 
 function temColisao(X1, Y1, L1, A1, X2, Y2, L2, A2)
-    return X2 < X1 + L1 and X1 < X2 + L2 and Y1 < Y2 + A2 and Y2 < Y1 + A1
+    return X2 < X1 + L1 and
+           X1 < X2 + L2 and
+           Y1 < Y2 + A2 and
+           Y2 < Y1 + A1
 end
 
-meteoros = {}
-
-function removeMeteoro()
-    for i = #meteoro, 1, -1 do
+function removeMeteoros()
+    for i = #meteoros, 1, -1 do
         if meteoros[i].y > ALTURA_TELA then
             table.remove(meteoros, i)
         end
@@ -61,7 +62,7 @@ end
 function criaMeteoro()
     meteoro = {
         x = math.random(LARGURA_TELA),
-        y = -80,
+        y = -70,
         largura = 50,
         altura = 44,
         peso = math.random(3),
@@ -81,58 +82,69 @@ function move14bis()
     if love.keyboard.isDown('w') then
         aviao_14bis.y = aviao_14bis.y - 1
     end
-
     if love.keyboard.isDown('s') then
         aviao_14bis.y = aviao_14bis.y + 1
     end
-
     if love.keyboard.isDown('a') then
         aviao_14bis.x = aviao_14bis.x - 1
     end
-
     if love.keyboard.isDown('d') then
         aviao_14bis.x = aviao_14bis.x + 1
     end
 end
 
 function trocaMusicaDeFundo()
-    musica_amiente:stop()
+    musica_ambiente:stop()
     game_over:play()
 end
 
-function checaColisoes()
+function checaColisaoComAviao()
     for k, meteoro in pairs(meteoros) do
-        if temColisao(meteoro.x, meteoro.y, meteoro.largura, meteoro.altura, aviao_14bis.x, aviao_14bis.y,
-            aviao_14bis.largura, aviao_14bis.altura) then
-
+        if temColisao(meteoro.x, meteoro.y, meteoro.largura, meteoro.altura, 
+                        aviao_14bis.x, aviao_14bis.y, aviao_14bis.largura, aviao_14bis.altura) then
             trocaMusicaDeFundo()
-
             destroiAviao()
             FIM_JOGO = true
         end
     end
 end
 
+function checaColisaoComTiros()
+    for i = #aviao_14bis.tiros, 1, -1 do
+        for j = #meteoros, 1, -1 do
+            if temColisao(aviao_14bis.tiros[i].x, aviao_14bis.tiros[i].y, aviao_14bis.tiros[i].largura, aviao_14bis.tiros[i].altura, 
+                            meteoros[j].x, meteoros[j].y, meteoros[j].largura, meteoros[j].altura) then
+                table.remove(aviao_14bis.tiros, i)
+                table.remove(meteoros, j)
+                break
+            end
+        end
+    end
+end
+
+function checaColisoes()
+    checaColisaoComAviao()
+    checaColisaoComTiros()
+end
+
 function love.load()
-    love.window.setMode(LARGURA_TELA, ALTURA_TELA, {
-        resizable = false
-    })
-    love.windiw.setTitle("14bis Vs Meteoros")
+    love.window.setMode(LARGURA_TELA, ALTURA_TELA, {resizable = false})
+    love.window.setTitle("14bis vs Meteoros")
 
     math.randomseed(os.time())
 
     background = love.graphics.newImage("img/background.png")
     aviao_14bis.imagem = love.graphics.newImage(aviao_14bis.src)
-
     meteoro_img = love.graphics.newImage("img/meteoro.png")
     tiro_img = love.graphics.newImage("img/tiro.png")
 
-    musica_ambiente = love.audio.newSource("audios/ambiente.wav")
+    musica_ambiente = love.audio.newSource("audios/ambiente.wav", "static")
     musica_ambiente:setLooping(true)
     musica_ambiente:play()
 
-    destruicao = love.audio.newSource("audios/destruicao.wav")
-    game_over = love.audio.newSource("audios/game_over.wav")
+    destruicao = love.audio.newSource("audios/destruicao.wav", "static")
+    game_over = love.audio.newSource("audios/game_over.wav", "static")
+    disparo = love.audio.newSource("audios/disparo.wav", "static")
 end
 
 function love.update(dt)
@@ -141,12 +153,10 @@ function love.update(dt)
             move14bis()
         end
 
-        removeMeteoro()
-
-        if #meteoros < MAX_METEORO then
-            criarMeteoro()
+        removeMeteoros()
+        if #meteoros < MAX_METEOROS then
+            criaMeteoro()
         end
-
         moveMeteoros()
         moveTiros()
         checaColisoes()
@@ -163,15 +173,13 @@ end
 
 function love.draw()
     love.graphics.draw(background, 0, 0)
-    love.graphics.draw(aviao_14bis.image, aviao_14bis.x, aviao_14bis.y)
-    love.graphics.draw(meteoro_img, x, y)
-
+    love.graphics.draw(aviao_14bis.imagem, aviao_14bis.x, aviao_14bis.y)
+    
     for k, meteoro in pairs(meteoros) do
-        love.graphics.draw(meteoro_img, meteoro.x, meteoro.y)
+        love.graphics.draw(meteoro_img, meteoro.x, meteoro.y) 
     end
 
     for k, tiro in pairs(aviao_14bis.tiros) do
-        love.graphics.draw(tiros_img, tiro.x, tiro.y)
+        love.graphics.draw(tiro_img, tiro.x, tiro.y) 
     end
-
 end
