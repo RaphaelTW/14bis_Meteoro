@@ -1,5 +1,6 @@
 LARGURA_TELA = 320
 ALTURA_TELA = 480
+MAX_METEORO = 12
 
 -- aviao_14bis
 aviao_14bis {
@@ -11,6 +12,14 @@ aviao_14bis {
 }
 
 meteoros = {}
+
+function removeMeteoro()
+    for i = #meteoro, 1, -1 do
+        if meteoros[i].y > ALTURA_TELA then
+            table.remove(meteoros, i)
+        end
+    end
+end
 
 function criaMeteoro()
     meteoro = {
@@ -61,7 +70,12 @@ function love.update(dt)
         move14bis()
     end
 
-    criarMeteoro()
+    removeMeteoro()
+
+    if #meteoros < MAX_METEORO then
+        criarMeteoro()
+    end
+
     moveMeteoros()
 end
 
