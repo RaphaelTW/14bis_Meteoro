@@ -1,12 +1,13 @@
--- Computação gráfica e callbacks do framework
+LARGURA_TELA = 320
+ALTURA_TELA = 480
 
     -- aviao_14bis
     aviao_14bis {
         src = "img/nave.png",
         largura = 64,
         altura = 64,
-        x = 0,
-        y = 0,
+        x = LARGURA_TELA/2 -64/2,
+        y = ALTURA_TELA -64/2,
     }
 
     function move14bis()
@@ -27,29 +28,22 @@
         end
     end
 
--- Carrega alguns valores padrão para nosso retângulo.
 function love.load()
-    love.window.setMode(320, 480, {resizable = false})
+    love.window.setMode(LARGURA_TELA, ALTURA_TELA, {resizable = false})
     love.windiw.setTitle("14bis Vs Meteoros")
 
     background = love.graphics.newImage("img/background.png")
     aviao_14bis.imagem = love.graphics.newImage(aviao_14bis.src)
-
-    -- x, y, w, h = 20, 20, 60, 20
 end
 
--- Aumenta o tamanho do retângulo a cada frame.gle.
 function love.update(dt)
     if love.keyboard.isDown('w','a','s','d') then
         move14bis()
     end
 end
 
--- Desenhe um retângulo colorido.
+
 function love.draw()
     love.graphics.draw(background, 0, 0)
     love.graphics.draw(aviao_14bis.image, aviao_14bis.x, aviao_14bis.y)
-
-    -- love.graphics.setColor(0, 0.4, 0.4)
-    love.graphics.rectangle("fill", x, y, w, h)
 end
