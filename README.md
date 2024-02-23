@@ -7,7 +7,7 @@ Bem-vindo ao 14bis Vs Meteoro - um emocionante jogo em Lua onde o lendário avi�
 ## Como Jogar
 
 1. **Controles**:
-   - Setas direcionais: Controlam o movimento do 14bis.
+   - "Q", "W", "D" e "S" são os direcionais: Controlam o movimento do 14bis.
    - Barra de Espaço: Dispara contra o meteoro.
    - Tecla de Escape (Esc): Pausa o jogo.
 
