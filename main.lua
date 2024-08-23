@@ -143,22 +143,24 @@ function love.load()
 
     math.randomseed(os.time())
 
+    -- Carregamento de imagens
     background = love.graphics.newImage("img/background.png")
-    gameover_img = love.graphics.newImage("img/gamerover.png")
+    gameover_img = love.graphics.newImage("img/gameover.png")
     vencedor_img = love.graphics.newImage("img/vencedor.png")
-
     aviao_14bis.imagem = love.graphics.newImage(aviao_14bis.src)
     meteoro_img = love.graphics.newImage("img/meteoro.png")
     tiro_img = love.graphics.newImage("img/tiro.png")
 
-    musica_ambiente = love.audio.newSource("audios/ambiente.wav")
+    -- Carregamento de áudio
+    print("Carregando áudio: audios/ambiente.wav")
+    musica_ambiente = love.audio.newSource("audios/ambiente.wav", "stream")
     musica_ambiente:setLooping(true)
     musica_ambiente:play()
 
-    destruicao = love.audio.newSource("audios/destruicao.wav")
-    game_over = love.audio.newSource("audios/game_over.wav")
-    vencedor_som = love.audio.newSource("audios/winner.wav")
-    disparo = love.audio.newSource("audios/disparo.wav")
+    destruicao = love.audio.newSource("audios/destruicao.wav", "static")
+    game_over = love.audio.newSource("audios/game_over.wav", "static")
+    vencedor_som = love.audio.newSource("audios/winner.wav", "static")
+    disparo = love.audio.newSource("audios/disparo.wav", "static")
 end
 
 function love.update(dt)
