@@ -23,13 +23,11 @@ Bem-vindo ao 14bis Vs Meteoro - um emocionante jogo em Lua onde o lendário avi�
 
 ## Instalação
 1. Clone o repositório para o seu computador:
-
-git clone https://github.com/RaphaelTW/14bis_Meteoro.git
+   - git clone https://github.com/RaphaelTW/14bis_Meteoro.git
 
 2. Certifique-se de ter Lua e Love2D instalados na sua máquina.
 
 3. Navegue até o diretório do jogo e execute-o com o Love2D:
-
 
 ## Contribuição
 Contribuições são bem-vindas! Se você encontrar algum problema ou tiver ideias para melhorar o jogo, sinta-se à vontade para abrir uma issue ou enviar um pull request.
