@@ -1,6 +1,6 @@
 # 14bis Vs Meteoro
 
-![14bis Vs Meteoro](https://th.bing.com/th/id/OIG3.5rZmUkrxd89Vj6xrRNKl?w=1024&h=1024&rs=1&pid=ImgDetMain)
+![14bis Vs Meteoro](img/logo.jpg)
 
 Bem-vindo ao 14bis Vs Meteoro - um emocionante jogo em Lua onde o lendário avião 14bis enfrenta desafios cósmicos enquanto tenta evitar a colisão com um meteoro mortal! Prepare-se para uma aventura cheia de ação, velocidade e estratégia enquanto você pilota o 14bis através do espaço sideral!
 
