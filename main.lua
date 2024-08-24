@@ -129,7 +129,7 @@ end
 
 function checaObjetivoConcluido()
     if METEOROS_ATINGIDOS >= NUMERO_METEOROS_OBJETIVO then
-        musica_ambientes:stop()
+        musica_ambiente:stop()
         VENCEDOR = true
         vencedor_som:play()
     end
